@@ -1,0 +1,4 @@
+Mark-gsl-not_null-constructors-as-noexcept.patch
+PowerPC-warn-suppression.patch
+Supported-CMake-version.patch
+Wno-unsafe-buffer-usage.patch

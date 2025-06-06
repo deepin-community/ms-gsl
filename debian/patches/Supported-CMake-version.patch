@@ -1,0 +1,13 @@
+Description: Set maximum CMake version to suppress a deprecation warning
+Author: Nicholas Guriev <guriev-ns@ya.ru>
+Bug-Debian: https://bugs.debian.org/1040735
+Last-Update: Tue, 05 Sep 2023 22:26:36 +0300
+
+--- a/tests/CMakeLists.txt
++++ b/tests/CMakeLists.txt
+@@ -1,4 +1,4 @@
+-cmake_minimum_required(VERSION 3.0.2)
++cmake_minimum_required(VERSION 3.0.2...3.27.4)
+ 
+ project(GSLTests CXX)
+ enable_testing()  # again, for support standalone testing

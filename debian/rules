@@ -1,4 +1,12 @@
 #!/usr/bin/make -f
 
+EXTRA_CMAKE_VARIABLES += CMAKE_DISABLE_FIND_PACKAGE_Git=ON
+ifneq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
+EXTRA_CMAKE_VARIABLES += GSL_TEST=OFF
+endif
+
 %:
 	dh $@
+
+override_dh_auto_configure:
+	dh_auto_configure -- $(EXTRA_CMAKE_VARIABLES:%=-D%)

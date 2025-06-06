@@ -1,0 +1,19 @@
+#!/bin/bash
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2020 Nicholas Guriev <guriev-ns@ya.ru>
+set -e -u
+
+what=$(basename "$0")
+cppstd="${what#*std}"
+parallel="$(nproc)"
+
+BASH_XTRACEFD=1
+set -x
+
+cmake -B "${AUTOPKGTEST_TMP}" -S tests \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_VERBOSE_MAKEFILE=ON \
+  -DCMAKE_CXX_FLAGS="-std=c++${cppstd}" \
+  -DGSL_CXX_STANDARD="${cppstd}"
+make -C "${AUTOPKGTEST_TMP}" "-j${parallel:-1}"
+make -C "${AUTOPKGTEST_TMP}" test "ARGS+=-j${parallel:-1} -V"

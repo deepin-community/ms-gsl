@@ -1,0 +1,10 @@
+Bug-Database: https://github.com/microsoft/GSL/issues
+Bug-Submit: https://github.com/microsoft/GSL/issues/new
+Changelog: https://github.com/microsoft/GSL/releases
+Reference:
+  - Editor: Bjarne Stroustrup and Herb Sutter
+    Title: C++ Core Guidelines
+    Type: manual
+    URL: https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines
+Repository: https://github.com/microsoft/GSL.git
+Repository-Browse: https://github.com/microsoft/GSL

@@ -1,5 +1,121 @@
-template-repository (1.0-1) unstable; urgency=medium
+ms-gsl (4.0.0-3) unstable; urgency=medium
 
-  * Initial release
+  * New Mark-gsl-not_null-constructors-as-noexcept.patch (closes: #1051289).
+  * New Supported-CMake-version.patch (closes: #1040735).
+  * New Wno-unsafe-buffer-usage.patch (closes: #1042558).
+  * Add autopkgtest with-gcc-std23.
 
- -- Tsic404 <liuheng@deepin.org>  Sat, 28 Jan 2023 13:46:49 +0800
+ -- Nicholas Guriev <guriev-ns@ya.ru>  Thu, 07 Sep 2023 18:48:50 +0300
+
+ms-gsl (4.0.0-2) unstable; urgency=medium
+
+  * Ignore -Wpsabi warnings on PowerPC.
+  * Skip Clang autopkgtests on IBM Z.
+
+ -- Nicholas Guriev <guriev-ns@ya.ru>  Sat, 05 Feb 2022 23:19:23 +0300
+
+ms-gsl (4.0.0-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Delete patches. They are all applied by upstream.
+  * Do not ignore compiler warnings in autopkgtests.
+  * New smoke test to reveal errors with version numbers.
+  * Bump Standards-Version to 4.6.0, no required changes.
+
+ -- Nicholas Guriev <guriev-ns@ya.ru>  Tue, 01 Feb 2022 00:29:03 +0300
+
+ms-gsl (3.1.0-4) unstable; urgency=medium
+
+  * Run autopkgtests only against default GCC and Clang (closes: #976037).
+  * Bump Standards-Versions to 4.5.1, no related changes for this.
+
+ -- Nicholas Guriev <guriev-ns@ya.ru>  Sun, 27 Dec 2020 17:13:40 +0300
+
+ms-gsl (3.1.0-3) unstable; urgency=medium
+
+  * Build GoogleTest framework before testing GSL (closes: #972944).
+  * Do auto-tests with Clang as well.
+
+ -- Nicholas Guriev <guriev-ns@ya.ru>  Sun, 01 Nov 2020 19:15:53 +0300
+
+ms-gsl (3.1.0-2) unstable; urgency=medium
+
+  * New Move-array-bounds-tests.patch (closes: #966895).
+    - Use independent translation unit to bypass an error caused by
+      "-Warray-bounds" flag.
+  * Add autopkgtests with various GCC versions and C++ standards.
+  * Update DebHelper compatibility level to 13.
+    - Remove no longer needed the CMAKE_SKIP_INSTALL_ALL_DEPENDENCY variable
+      from the debian/rules file.
+
+ -- Nicholas Guriev <guriev-ns@ya.ru>  Thu, 20 Aug 2020 07:42:55 +0300
+
+ms-gsl (3.1.0-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Add upstream metadata.
+  * Add "Revert-Drop-ARCH_INDEPENDENT.patch"
+    - This fixes build library consumers on 32-bit architectures.
+
+ -- Nicholas Guriev <guriev-ns@ya.ru>  Sat, 06 Jun 2020 22:00:01 +0300
+
+ms-gsl (3.0.1-1) unstable; urgency=medium
+
+  * New upstream release.
+    - Switch to GoogleTest framework.
+
+ -- Nicholas Guriev <guriev-ns@ya.ru>  Sun, 26 Apr 2020 17:35:55 +0300
+
+ms-gsl (2.1.0-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Patches:
+    - Drop no more needed Fix-GCC-Build.patch
+    - Update Catch-Classic-Workaround.patch
+  * Bump Standards-Version to 4.5.0, no related changes.
+  * Bump debhelper-compat to 12, no releted changes.
+  * Clarify required CMake version 3.1.3.
+
+ -- Nicholas Guriev <guriev-ns@ya.ru>  Fri, 28 Feb 2020 13:59:40 +0300
+
+ms-gsl (1.0.0-2) unstable; urgency=medium
+
+  * Add Catch-Classic-Workaround.patch (closes: #906385).
+    - Redefine a macro for compatibility with Catch 1.x.x.
+
+ -- Nicholas Guriev <guriev-ns@ya.ru>  Sat, 25 Aug 2018 13:31:02 +0300
+
+ms-gsl (1.0.0-1) unstable; urgency=medium
+
+  * New upstream release.
+    - Replace the libunittest++-dev build dependency with the catch framework.
+  * Move the repository of the package to salsa.debian.org.
+  * Create the debain/watch file for tracking upstream versions.
+  * Add support for the nocheck build profile
+  * Update patches.
+    - Fix-GCC-Build.patch: New fix of tests taken from already merged pull
+      request.
+  * Bump debhelper version to 11 and standards version to 4.1.5.
+    - Add the Rules-Requires-Root field into debian/control.
+
+ -- Nicholas Guriev <guriev-ns@ya.ru>  Sat, 07 Jul 2018 13:26:34 +0300
+
+ms-gsl (0~git20170602.1f87ef7-2) unstable; urgency=medium
+
+  * Apply patch that fixes tests, from pull request #526 (closes: #871070)
+
+ -- Nicholas Guriev <guriev-ns@ya.ru>  Thu, 17 Aug 2017 22:35:17 +0300
+
+ms-gsl (0~git20170602.1f87ef7-1) unstable; urgency=medium
+
+  * Merge the latest upstream commit
+  * Update a patch, fix build against new unittest++ (closes: #865309)
+  * Bump Standards-Version to 4.0.0, no changes for this
+
+ -- Nicholas Guriev <guriev-ns@ya.ru>  Tue, 04 Jul 2017 14:35:04 +0300
+
+ms-gsl (0~git20170403.ebab8ca-1) unstable; urgency=low
+
+  * Initial upload (closes: #859221)
+
+ -- Nicholas Guriev <guriev-ns@ya.ru>  Thu, 06 Apr 2017 07:12:01 +0300
