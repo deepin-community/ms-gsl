@@ -1,0 +1,12 @@
+Index: ms-gsl-4.0.0/tests/CMakeLists.txt
+===================================================================
+--- ms-gsl-4.0.0.orig/tests/CMakeLists.txt
++++ ms-gsl-4.0.0/tests/CMakeLists.txt
+@@ -127,6 +127,7 @@ else()
+           -Wno-global-constructors # GTest
+           -Wno-missing-prototypes
+           -Wno-padded
++          -Wno-switch-default # GTest
+           -Wno-unknown-attributes
+           -Wno-used-but-marked-unused # GTest EXPECT_DEATH
+           -Wno-weak-vtables

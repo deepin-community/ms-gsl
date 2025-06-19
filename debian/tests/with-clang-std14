@@ -1,0 +1,30 @@
+#!/bin/bash
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2020 Nicholas Guriev <guriev-ns@ya.ru>
+set -e -u
+
+what=$(basename "$0")
+cppstd="${what#*std}"
+parallel="$(nproc)"
+gtest_dir="${AUTOPKGTEST_TMP}/googletest"
+msgsl_dir="${AUTOPKGTEST_TMP}/ms-gsl"
+
+BASH_XTRACEFD=1
+set -x
+
+cmake -B "${gtest_dir}" -S /usr/src/googletest \
+  -DCMAKE_VERBOSE_MAKEFILE=ON \
+  -DCMAKE_C_COMPILER=true \
+  -DCMAKE_CXX_COMPILER=clang++ \
+  -DCMAKE_CXX_FLAGS="-stdlib=libc++" \
+  -DBUILD_GMOCK=OFF
+make -C "${gtest_dir}"
+cmake -B "${msgsl_dir}" -S tests \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_VERBOSE_MAKEFILE=ON \
+  -DCMAKE_CXX_COMPILER=clang++ \
+  -DCMAKE_CXX_FLAGS="-std=c++${cppstd} -stdlib=libc++" \
+  -DCMAKE_EXE_LINKER_FLAGS="-L${gtest_dir}/lib" \
+  -DGSL_CXX_STANDARD="${cppstd}"
+make -C "${msgsl_dir}" "-j${parallel:-1}"
+make -C "${msgsl_dir}" test "ARGS+=-j${parallel:-1} -V"
