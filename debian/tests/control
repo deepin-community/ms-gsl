@@ -1,0 +1,20 @@
+Tests: smoke
+Depends: cmake, g++ | c++-compiler, libmsgsl-dev, make
+Restrictions: superficial
+
+Tests: with-gcc-std14 with-gcc-std17 with-gcc-std20 with-gcc-std23
+Depends: cmake, g++, libgtest-dev, libmsgsl-dev, make, pkg-config
+
+Tests: with-clang-std14 with-clang-std17 with-clang-std20
+# There are problems with LLVM toolchain for IBM Z platform.
+# See Debian bugs 974841, 1004914. So skip these tests for now.
+Architecture: !s390x
+Depends:
+ clang,
+ cmake,
+ libc++-dev,
+ libc++abi-dev,
+ libgtest-dev,
+ libmsgsl-dev,
+ make,
+ pkg-config,

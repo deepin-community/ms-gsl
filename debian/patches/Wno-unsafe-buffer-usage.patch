@@ -1,0 +1,17 @@
+Description: Fix autopkgtest with LLVM 16, ignore irrelevant warning
+Bug-Debian: https://bugs.debian.org/1042558
+Author: Nicholas Guriev <guriev-ns@ya.ru>
+Last-Update: Wed, 06 Sep 2023 21:56:00 +0300
+
+--- a/tests/CMakeLists.txt
++++ b/tests/CMakeLists.txt
+@@ -144,6 +144,9 @@ else()
+                                                   # and clang 11.0.0. (operator< is being re-written by the compiler
+                                                   # as operator<=> and raising the warning)
+           >
++          $<$<NOT:$<VERSION_LESS:$<CXX_COMPILER_VERSION>,16>>:
++            -Wno-unsafe-buffer-usage
++          >
+         >
+         $<$<CXX_COMPILER_ID:AppleClang>:
+           $<$<AND:$<VERSION_GREATER:$<CXX_COMPILER_VERSION>,9.1>,$<VERSION_LESS:$<CXX_COMPILER_VERSION>,10>>:

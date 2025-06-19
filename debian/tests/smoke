@@ -1,0 +1,24 @@
+#!/bin/bash
+set -e -u
+
+cd "${AUTOPKGTEST_TMP}"
+ver=$(dpkg-query -Wf '${source:Upstream-Version}' libmsgsl-dev)
+
+BASH_XTRACEFD=1
+set -x
+
+tee CMakeLists.txt <<EOF
+cmake_minimum_required(VERSION 3.0.0...3.27.4)
+project(SmokeTest CXX)
+find_package(Microsoft.GSL ${ver} EXACT REQUIRED)
+message(STATUS "Found GSL of version \${Microsoft.GSL_VERSION}")
+link_libraries(Microsoft.GSL::GSL)
+add_executable(SmokeTest main.cpp)
+EOF
+
+tee main.cpp <<EOF
+#include <gsl/gsl>
+int main(){}
+EOF
+
+cmake . && make

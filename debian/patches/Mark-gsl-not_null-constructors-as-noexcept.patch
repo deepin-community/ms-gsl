@@ -1,0 +1,60 @@
+Description: Mark gsl::not_null constructors as noexcept when underlying type can be moved with no exception
+Bug-GCC: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=106547
+Bug-Debian: https://bugs.debian.org/1051289
+Forwarded: https://github.com/microsoft/GSL/pull/1135
+Author: Nicholas Guriev <guriev-ns@ya.ru>
+Last-Update: Tue, 05 Sep 2023 23:00:33 +0300
+
+--- a/include/gsl/pointers
++++ b/include/gsl/pointers
+@@ -87,19 +87,19 @@ public:
+     static_assert(details::is_comparable_to_nullptr<T>::value, "T cannot be compared to nullptr.");
+ 
+     template <typename U, typename = std::enable_if_t<std::is_convertible<U, T>::value>>
+-    constexpr not_null(U&& u) : ptr_(std::forward<U>(u))
++    constexpr not_null(U&& u) noexcept(std::is_nothrow_move_constructible<T>::value) : ptr_(std::forward<U>(u))
+     {
+         Expects(ptr_ != nullptr);
+     }
+ 
+     template <typename = std::enable_if_t<!std::is_same<std::nullptr_t, T>::value>>
+-    constexpr not_null(T u) : ptr_(std::move(u))
++    constexpr not_null(T u) noexcept(std::is_nothrow_move_constructible<T>::value) : ptr_(std::move(u))
+     {
+         Expects(ptr_ != nullptr);
+     }
+ 
+     template <typename U, typename = std::enable_if_t<std::is_convertible<U, T>::value>>
+-    constexpr not_null(const not_null<U>& other) : not_null(other.get())
++    constexpr not_null(const not_null<U>& other) noexcept(std::is_nothrow_move_constructible<T>::value) : not_null(other.get())
+     {}
+ 
+     not_null(const not_null& other) = default;
+--- a/tests/notnull_tests.cpp
++++ b/tests/notnull_tests.cpp
+@@ -24,6 +24,7 @@
+ #include <stdint.h>  // for uint16_t
+ #include <string>    // for basic_string, operator==, string, operator<<
+ #include <typeinfo>  // for type_info
++#include <variant>   // for variant, monostate, get
+ 
+ #include "deathTestCommon.h"
+ using namespace gsl;
+@@ -489,6 +490,17 @@ TEST(notnull_tests, TestNotNullConstruct
+     }
+ #endif
+ }
++
++TEST(notnull_tests, TestVariantEmplace)
++{
++    int i = 0;
++    std::variant<std::monostate, not_null<int*>> v;
++    v.emplace<not_null<int*>>(&i);
++
++    EXPECT_FALSE(v.valueless_by_exception());
++    EXPECT_TRUE(v.index() == 1);
++    EXPECT_TRUE(std::get<1>(v) == &i);
++}
+ #endif // #if defined(__cplusplus) && (__cplusplus >= 201703L)
+ 
+ TEST(notnull_tests, TestMakeNotNull)
